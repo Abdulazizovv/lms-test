@@ -1,40 +1,5 @@
 [
   {
-    "attemptId": "e7947f8b-c521-475d-990a-f74cba5996cc",
-    "createdAt": "2026-02-07T11:03:07.229Z",
-    "student": {
-      "name": "Ali",
-      "age": 14
-    },
-    "test": {
-      "id": "js-basic-1",
-      "title": "JavaScript Basic - Tezkor test"
-    },
-    "score": {
-      "correct": 1,
-      "total": 3,
-      "percent": 33
-    },
-    "level": "Beginner",
-    "answers": [
-      {
-        "questionId": "q1",
-        "selectedIndex": 1,
-        "isCorrect": true
-      },
-      {
-        "questionId": "q2",
-        "selectedIndex": 1,
-        "isCorrect": false
-      },
-      {
-        "questionId": "q3",
-        "selectedIndex": 0,
-        "isCorrect": false
-      }
-    ]
-  },
-  {
     "attemptId": "f7553f05-075d-4555-b1d3-4b708ed801a9",
     "createdAt": "2026-02-07T11:12:46.276Z",
     "student": {
@@ -100,6 +65,76 @@
       {
         "questionId": "q3",
         "selectedIndex": 3,
+        "isCorrect": false
+      }
+    ]
+  },
+  {
+    "attemptId": "b317d8cd-03a6-4f98-a8b9-e6bbbd89cd67",
+    "createdAt": "2026-02-07T11:31:09.805Z",
+    "student": {
+      "name": "Ulugbek",
+      "age": 20
+    },
+    "test": {
+      "id": "backend-basic-1",
+      "title": "Backend Basic - Boshlang‘ich test"
+    },
+    "score": {
+      "correct": 0,
+      "total": 10,
+      "percent": 0
+    },
+    "level": "Beginner",
+    "answers": [
+      {
+        "questionId": "q1",
+        "selectedIndex": 0,
+        "isCorrect": false
+      },
+      {
+        "questionId": "q2",
+        "selectedIndex": 3,
+        "isCorrect": false
+      },
+      {
+        "questionId": "q3",
+        "selectedIndex": 2,
+        "isCorrect": false
+      },
+      {
+        "questionId": "q4",
+        "selectedIndex": 3,
+        "isCorrect": false
+      },
+      {
+        "questionId": "q5",
+        "selectedIndex": 2,
+        "isCorrect": false
+      },
+      {
+        "questionId": "q6",
+        "selectedIndex": null,
+        "isCorrect": false
+      },
+      {
+        "questionId": "q7",
+        "selectedIndex": null,
+        "isCorrect": false
+      },
+      {
+        "questionId": "q8",
+        "selectedIndex": null,
+        "isCorrect": false
+      },
+      {
+        "questionId": "q9",
+        "selectedIndex": null,
+        "isCorrect": false
+      },
+      {
+        "questionId": "q10",
+        "selectedIndex": null,
         "isCorrect": false
       }
     ]

@@ -10,6 +10,14 @@ export default function AdminResults() {
   const [password, setPassword] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
   const [error, setError] = useState("");
+  const [deleting, setDeleting] = useState<string | null>(null);
+
+  const fetchResults = () => {
+    fetch("/api/results")
+      .then((res) => res.json())
+      .then((data) => setResults(data as ResultRecord[]))
+      .catch(() => setResults([]));
+  };
 
   useEffect(() => {
     const stored = sessionStorage.getItem("admin_auth");
@@ -20,10 +28,7 @@ export default function AdminResults() {
 
   useEffect(() => {
     if (!authenticated) return;
-    fetch("/api/results")
-      .then((res) => res.json())
-      .then((data) => setResults(data as ResultRecord[]))
-      .catch(() => setResults([]));
+    fetchResults();
   }, [authenticated]);
 
   const filtered = useMemo(() => {
@@ -53,6 +58,37 @@ export default function AdminResults() {
     } catch {
       setError("Xatolik yuz berdi");
     }
+  };
+
+  const handleDelete = async (attemptId: string) => {
+    if (!confirm("Rostdan ham o'chirmoqchimisiz?")) return;
+    setDeleting(attemptId);
+    try {
+      const res = await fetch(`/api/results/${attemptId}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        fetchResults();
+      } else {
+        alert("O'chirishda xatolik");
+      }
+    } catch {
+      alert("O'chirishda xatolik");
+    } finally {
+      setDeleting(null);
+    }
+  };
+
+  const formatTime = (isoString: string) => {
+    const date = new Date(isoString);
+    return new Intl.DateTimeFormat('uz-UZ', {
+      timeZone: 'Asia/Tashkent',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    }).format(date);
   };
 
   if (!authenticated) {
@@ -159,18 +195,14 @@ export default function AdminResults() {
                 <th className="px-4 py-3">Score</th>
                 <th className="px-4 py-3">%</th>
                 <th className="px-4 py-3">Level</th>
+                <th className="px-4 py-3">Amallar</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200">
               {filtered.map((item) => (
                 <tr key={item.attemptId} className="hover:bg-slate-50">
-                  <td className="whitespace-nowrap px-4 py-3 text-xs text-slate-500">
-                    {new Date(item.createdAt).toLocaleString("uz", {
-                      month: "short",
-                      day: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
+                  <td className="whitespace-nowrap px-4 py-3 text-xs text-slate-600">
+                    {formatTime(item.createdAt)}
                   </td>
                   <td className="px-4 py-3 font-medium text-slate-900">
                     {item.student.name}
@@ -201,6 +233,16 @@ export default function AdminResults() {
                     >
                       {item.level}
                     </span>
+                  </td>
+                  <td className="px-4 py-3">
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(item.attemptId)}
+                      disabled={deleting === item.attemptId}
+                      className="rounded-lg border border-rose-200 bg-rose-50 px-2 py-1 text-xs font-medium text-rose-700 transition hover:bg-rose-100 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      {deleting === item.attemptId ? "O'chirilmoqda..." : "O'chirish"}
+                    </button>
                   </td>
                 </tr>
               ))}
