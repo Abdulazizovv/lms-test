@@ -1,0 +1,79 @@
+[
+  {
+    "id": "python-basic-1",
+    "title": "Python Basic - Kirish testi",
+    "difficulty": "Beginner",
+    "timeLimitSec": 600,
+    "questions": [
+      {
+        "id": "q1",
+        "question": "Python’da print nima qiladi?",
+        "options": ["Kiritadi", "Chop etadi", "O'chiradi", "Saqlaydi"],
+        "answerIndex": 1
+      },
+      {
+        "id": "q2",
+        "question": "Quyidagilardan qaysi biri to‘g‘ri o‘zgaruvchi nomi?",
+        "options": ["2son", "son_2", "son-2", "son 2"],
+        "answerIndex": 1
+      },
+      {
+        "id": "q3",
+        "question": "Python’da ro‘yxat (list) qaysi qavs bilan yoziladi?",
+        "options": ["()", "{}", "[]", "<>"],
+        "answerIndex": 2
+      }
+    ]
+  },
+  {
+    "id": "js-basic-1",
+    "title": "JavaScript Basic - Tezkor test",
+    "difficulty": "Beginner",
+    "timeLimitSec": 480,
+    "questions": [
+      {
+        "id": "q1",
+        "question": "JavaScript’da massiv (array) qanday e’lon qilinadi?",
+        "options": ["{}", "[]", "()", "<>"],
+        "answerIndex": 1
+      },
+      {
+        "id": "q2",
+        "question": "const bilan e’lon qilingan qiymat…",
+        "options": ["o‘zgarmaydi", "har doim o‘zgaradi", "faqat number bo‘ladi", "faqat string bo‘ladi"],
+        "answerIndex": 0
+      },
+      {
+        "id": "q3",
+        "question": "Arrow function sintaksisi qaysi?",
+        "options": ["function => {}", "() => {}", "() -> {}", "=> () {}"],
+        "answerIndex": 1
+      }
+    ]
+  },
+  {
+    "id": "math-logic-1",
+    "title": "Math & Logic - Starter",
+    "difficulty": "Intermediate",
+    "questions": [
+      {
+        "id": "q1",
+        "question": "2, 4, 8, 16, ... keyingi son?",
+        "options": ["18", "20", "24", "32"],
+        "answerIndex": 3
+      },
+      {
+        "id": "q2",
+        "question": "Agar 5x = 25 bo‘lsa, x nechiga teng?",
+        "options": ["3", "4", "5", "6"],
+        "answerIndex": 2
+      },
+      {
+        "id": "q3",
+        "question": "Mantiqiy: barcha A — B. Ba’zi B — C. Shunda…",
+        "options": ["Ba’zi A — C bo‘lishi mumkin", "Hech bir A — C emas", "Barcha A — C", "Barcha C — A"],
+        "answerIndex": 0
+      }
+    ]
+  }
+]
