@@ -83,6 +83,19 @@ lms/
 
 4. **Open**: <http://localhost:3000>
 
+## Production (Docker Compose)
+
+1. `.env.example` ni `.env` ga ko‘chiring va qiymatlarni to‘ldiring (ayniqsa `ADMIN_PASSWORD`).
+2. Ishga tushirish:
+
+   ```bash
+   docker compose up -d --build
+   ```
+
+3. Ochish: <http://localhost:3404>
+
+`data/results.json` yozuvlari `lms_data` volume orqali saqlanib qoladi (`/app/data`).
+
 ## Data Format
 
 ### tests.json
