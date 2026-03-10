@@ -5,11 +5,14 @@ Minimal va zamonaviy assessment platformasi. Yangi o'quvchilarni tezda baholash 
 ## Features
 
 - **Landing page**: Hero section, CTA buttons, 3-step process.
+- **Branch (filial) selection**: O‘quvchi avval filialni tanlaydi, keyin testlar ko‘rinadi.
 - **Test selection**: Search/filter, difficulty badges, cards.
 - **Student intake form**: Name + age validation.
 - **Quiz engine**: Progress bar, timer, localStorage persistence, beforeunload protection.
 - **Result page**: Score, percent, level, feedback.
 - **Admin panel**: View all results, search by test name.
+- **Admin tests**: JSON orqali test qo‘shish/tahrirlash/o‘chirish.
+- **Admin branches**: JSON orqali filial qo‘shish/tahrirlash/o‘chirish (rasm URL bilan).
 - **Telegram integration**: Automatic result notifications.
 
 ## Tech Stack
@@ -18,6 +21,7 @@ Minimal va zamonaviy assessment platformasi. Yangi o'quvchilarni tezda baholash 
 - **TypeScript**
 - **Tailwind CSS**
 - **Server-side JSON** for data (tests.json, results.json)
+- **Branches JSON** for filial data (branches.json)
 - **Telegram Bot API**
 
 ## Project Structure
@@ -42,10 +46,15 @@ lms/
 │   ├── admin/
 │   │   └── results/
 │   │       └── page.tsx        # Admin panel table
+│   ├── admin/tests/
+│   │   └── page.tsx            # Admin tests editor (JSON)
+│   ├── branches/
+│   │   └── page.tsx            # Branch selection
 │   ├── api/
 │   │   ├── submit/route.ts     # POST: save result + telegram
 │   │   └── results/route.ts    # GET: read results
 ├── data/
+│   ├── branches.json           # Filiallar ro‘yxati
 │   ├── tests.json              # Test questions
 │   └── results.json            # Result records (append-only)
 ├── lib/
@@ -154,6 +163,9 @@ lms/
 ## Admin Panel
 
 Access at `/admin/results` (no auth in MVP). View all results, search by test name.
+
+Testlarni boshqarish: `/admin/tests` (JSON editor).
+Filiallarni boshqarish: `/admin/branches` (JSON editor).
 
 ## Future Improvements (out of scope for MVP)
 

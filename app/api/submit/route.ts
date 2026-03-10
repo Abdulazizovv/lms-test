@@ -30,14 +30,34 @@ async function sendTelegram(result: ResultRecord): Promise<TelegramSendOutcome> 
     second: '2-digit',
   }).format(date);
 
-  const text = `📝 Yangi test natijasi
+  const formatDuration = (totalSec?: number) => {
+    if (typeof totalSec !== "number" || !Number.isFinite(totalSec)) return "—";
+    const sec = Math.max(Math.floor(totalSec), 0);
+    const h = Math.floor(sec / 3600);
+    const m = Math.floor((sec % 3600) / 60);
+    const s = Math.floor(sec % 60);
+    if (h > 0) return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+    return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  };
 
-👤 Ism: ${result.student.name}
-🎂 Yosh: ${result.student.age}
-📚 Test: ${result.test.title}
-✅ Natija: ${result.score.correct}/${result.score.total} (${result.score.percent}%)
-🏷 Daraja: ${result.level}
-⏱ Vaqt: ${uzbekTime}`;
+  const esc = (value: string) =>
+    value
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;");
+
+  const text = [
+    "<b>Test natijasi</b>",
+    "",
+    `<b>O‘quvchi:</b> ${esc(result.student.name)} (${result.student.age})`,
+    `<b>Filial:</b> ${esc(result.branch?.name ?? "—")}`,
+    `<b>Test:</b> ${esc(result.test.title)} <code>${esc(result.test.id)}</code>`,
+    `<b>Natija:</b> ${result.score.correct}/${result.score.total} (${result.score.percent}%)`,
+    `<b>Daraja:</b> ${esc(result.level)}`,
+    `<b>Sarflangan vaqt:</b> ${formatDuration(result.durationSec)}`,
+    `<b>Sana:</b> ${esc(uzbekTime)}`,
+    `<b>Attempt:</b> <code>${esc(result.attemptId)}</code>`,
+  ].join("\n");
 
   const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
@@ -47,7 +67,12 @@ async function sendTelegram(result: ResultRecord): Promise<TelegramSendOutcome> 
     const res = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chat_id: chatId, text }),
+      body: JSON.stringify({
+        chat_id: chatId,
+        text,
+        parse_mode: "HTML",
+        disable_web_page_preview: true,
+      }),
       signal: controller.signal,
     });
 

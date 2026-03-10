@@ -19,19 +19,37 @@ function formatSeconds(total: number) {
   return `${min}:${sec}`;
 }
 
-export default function QuizClient({ test }: { test: Test }) {
+function formatElapsed(totalSec: number) {
+  const h = Math.floor(totalSec / 3600);
+  const m = Math.floor((totalSec % 3600) / 60);
+  const s = Math.floor(totalSec % 60);
+  if (h > 0) return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+}
+
+export default function QuizClient({
+  test,
+  branch,
+}: {
+  test: Test;
+  branch: { id: string; name: string };
+}) {
   const router = useRouter();
+  const focusRef = useRef<HTMLDivElement | null>(null);
   const [student, setStudent] = useState<StudentInfo | null>(null);
   const [answers, setAnswers] = useState<(number | null)[]>(
     toInitialAnswers(test.questions.length)
   );
   const [current, setCurrent] = useState(0);
   const [startedAt, setStartedAt] = useState<number | null>(null);
-  const [remaining, setRemaining] = useState<number | null>(null);
+  const [elapsedSec, setElapsedSec] = useState(0);
   const [showExitConfirm, setShowExitConfirm] = useState(false);
+  const [exitTo, setExitTo] = useState<string>("");
   const [showFinishConfirm, setShowFinishConfirm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const finishedRef = useRef(false);
+
+  const defaultExitPath = `/tests?branch=${encodeURIComponent(branch.id)}`;
 
   const total = test.questions.length;
   const answeredCount = useMemo(
@@ -79,12 +97,12 @@ export default function QuizClient({ test }: { test: Test }) {
         setCurrent(0);
       }
     }
-
-    if (test.timeLimitSec && !startedAt) {
-      const now = Date.now();
-      setStartedAt(now);
-    }
+    if (!startedAt) setStartedAt(Date.now());
   }, [test.id, test.timeLimitSec, total, startedAt]);
+
+  useEffect(() => {
+    focusRef.current?.focus();
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -96,19 +114,12 @@ export default function QuizClient({ test }: { test: Test }) {
   }, [answers, current, startedAt, test.id]);
 
   useEffect(() => {
-    if (!test.timeLimitSec || !startedAt) return;
-    const interval = setInterval(() => {
-      const elapsed = Math.floor((Date.now() - startedAt) / 1000);
-      const remainingSec = Math.max((test.timeLimitSec ?? 0) - elapsed, 0);
-      setRemaining(remainingSec);
-      if (remainingSec <= 0 && !finishedRef.current) {
-        finishedRef.current = true;
-        handleFinish(true);
-      }
-    }, 1000);
+    if (!startedAt) return;
+    const tick = () => setElapsedSec(Math.floor((Date.now() - startedAt) / 1000));
+    tick();
+    const interval = setInterval(tick, 1000);
     return () => clearInterval(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [startedAt, test.timeLimitSec]);
+  }, [startedAt]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -120,6 +131,28 @@ export default function QuizClient({ test }: { test: Test }) {
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (finishedRef.current) return;
+
+    const handlePopState = () => {
+      if (finishedRef.current) return;
+      setExitTo(defaultExitPath);
+      setShowExitConfirm(true);
+      // Keep user on the quiz until they confirm.
+      history.pushState(null, "", window.location.href);
+    };
+
+    history.pushState(null, "", window.location.href);
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [defaultExitPath]);
+
+  const requestExit = (to: string) => {
+    setExitTo(to);
+    setShowExitConfirm(true);
+  };
 
   const handleAnswer = (index: number) => {
     setAnswers((prev) => {
@@ -155,11 +188,14 @@ export default function QuizClient({ test }: { test: Test }) {
 
     const correct = answerRecords.filter((item) => item.isCorrect).length;
     const percent = Math.round((correct / total) * 100);
+    const durationSec = startedAt ? Math.max(Math.floor((Date.now() - startedAt) / 1000), 0) : undefined;
     const payload = {
       attemptId,
       createdAt: new Date().toISOString(),
       student,
+      branch,
       test: { id: test.id, title: test.title },
+      durationSec,
       score: { correct, total, percent },
       level: getLevel(percent),
       answers: answerRecords,
@@ -198,13 +234,15 @@ export default function QuizClient({ test }: { test: Test }) {
 
   if (!student) {
     return (
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-600">
+      <div className="rounded-2xl border border-border bg-card p-6 text-sm text-muted-foreground">
         O‘quvchi ma’lumoti topilmadi. Iltimos, avval testni boshlang.
         <div className="mt-4">
           <button
             type="button"
-            onClick={() => router.push(`/start/${test.id}`)}
-            className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white"
+            onClick={() =>
+              router.push(`/start/${test.id}?branch=${encodeURIComponent(branch.id)}`)
+            }
+            className="rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground transition hover:opacity-90"
           >
             Ma’lumotni kiritish
           </button>
@@ -217,29 +255,36 @@ export default function QuizClient({ test }: { test: Test }) {
   const progressPercent = Math.round(((current + 1) / total) * 100);
 
   return (
-    <div className="space-y-6">
-      <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-        <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-slate-600">
+    <div className="space-y-6" ref={focusRef} tabIndex={-1}>
+      <div className="rounded-2xl border border-border bg-card p-4 shadow-sm">
+        <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-muted-foreground">
           <span>
             Savol {current + 1}/{total}
           </span>
-          {test.timeLimitSec ? (
-            <span className="rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-600">
-              {remaining !== null ? formatSeconds(remaining) : formatSeconds(test.timeLimitSec)}
-            </span>
-          ) : null}
-          <span className="text-xs text-slate-500">Javoblar: {answeredCount}</span>
+          <span className="rounded-full border border-border bg-card px-3 py-1 text-xs text-muted-foreground">
+            ⏱ {formatElapsed(elapsedSec)}
+          </span>
+          <span className="text-xs text-muted-foreground">Javoblar: {answeredCount}</span>
         </div>
-        <div className="mt-3 h-2 w-full rounded-full bg-slate-100">
+        <div className="mt-3 h-2 w-full rounded-full bg-muted">
           <div
-            className="h-2 rounded-full bg-slate-900 transition-all"
+            className="h-2 rounded-full bg-primary transition-all"
             style={{ width: `${progressPercent}%` }}
           />
         </div>
       </div>
 
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="text-lg font-semibold text-slate-900">
+      <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+        {currentQuestion.imageUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={currentQuestion.imageUrl}
+            alt=""
+            className="mb-4 w-full rounded-xl border border-border object-cover"
+            loading="lazy"
+          />
+        ) : null}
+        <h2 className="text-lg font-semibold text-foreground">
           {currentQuestion.question}
         </h2>
         <div className="mt-4 space-y-3">
@@ -250,10 +295,10 @@ export default function QuizClient({ test }: { test: Test }) {
                 key={option}
                 type="button"
                 onClick={() => handleAnswer(idx)}
-                className={`w-full rounded-xl border px-4 py-3 text-left text-sm transition focus:outline-none focus:ring-2 focus:ring-slate-300 ${
+                className={`w-full rounded-xl border px-4 py-3 text-left text-sm transition focus:outline-none focus:ring-2 focus:ring-border ${
                   selected
-                    ? "border-slate-900 bg-slate-900 text-white"
-                    : "border-slate-200 bg-white text-slate-700 hover:border-slate-400"
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border bg-card text-foreground hover:border-muted-foreground"
                 }`}
                 aria-pressed={selected}
               >
@@ -268,8 +313,8 @@ export default function QuizClient({ test }: { test: Test }) {
         <div className="flex items-center gap-3">
           <button
             type="button"
-            onClick={() => router.push("/tests")}
-            className="rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-700"
+            onClick={() => requestExit(defaultExitPath)}
+            className="rounded-full border border-border bg-card px-4 py-2 text-xs font-semibold text-foreground transition hover:opacity-90"
           >
             ← Testlar
           </button>
@@ -277,7 +322,7 @@ export default function QuizClient({ test }: { test: Test }) {
             type="button"
             disabled={current === 0}
             onClick={() => setCurrent((prev) => Math.max(prev - 1, 0))}
-            className="rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-full border border-border bg-card px-4 py-2 text-xs font-semibold text-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
           >
             Orqaga
           </button>
@@ -287,7 +332,7 @@ export default function QuizClient({ test }: { test: Test }) {
             <button
               type="button"
               onClick={() => setCurrent((prev) => Math.min(prev + 1, total - 1))}
-              className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white"
+              className="rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground transition hover:opacity-90"
             >
               Keyingisi
             </button>
@@ -295,7 +340,7 @@ export default function QuizClient({ test }: { test: Test }) {
             <button
               type="button"
               onClick={() => setShowFinishConfirm(true)}
-              className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white"
+              className="rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground transition hover:opacity-90"
             >
               Yakunlash
             </button>
@@ -305,27 +350,27 @@ export default function QuizClient({ test }: { test: Test }) {
 
       {showExitConfirm ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-          <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-lg">
-            <h3 className="text-lg font-semibold text-slate-900">
+          <div className="w-full max-w-sm rounded-2xl border border-border bg-card p-6 shadow-lg">
+            <h3 className="text-lg font-semibold text-foreground">
               Chiqishni tasdiqlaysizmi?
             </h3>
-            <p className="mt-2 text-sm text-slate-600">
+            <p className="mt-2 text-sm text-muted-foreground">
               Progress saqlanadi, ammo testdan chiqasiz.
             </p>
             <div className="mt-4 flex items-center justify-end gap-2">
               <button
                 type="button"
                 onClick={() => setShowExitConfirm(false)}
-                className="rounded-full border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700"
+                className="rounded-full border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground transition hover:opacity-90"
               >
                 Bekor qilish
               </button>
               <button
                 type="button"
-                onClick={() => router.push("/")}
-                className="rounded-full bg-slate-900 px-3 py-2 text-xs font-semibold text-white"
+                onClick={() => router.push(exitTo || defaultExitPath)}
+                className="rounded-full bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground transition hover:opacity-90"
               >
-                Bosh sahifaga
+                Chiqish
               </button>
             </div>
           </div>
@@ -334,25 +379,25 @@ export default function QuizClient({ test }: { test: Test }) {
 
       {showFinishConfirm ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-          <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-lg">
-            <h3 className="text-lg font-semibold text-slate-900">
+          <div className="w-full max-w-sm rounded-2xl border border-border bg-card p-6 shadow-lg">
+            <h3 className="text-lg font-semibold text-foreground">
               Testni yakunlaysizmi?
             </h3>
-            <p className="mt-2 text-sm text-slate-600">
+            <p className="mt-2 text-sm text-muted-foreground">
               Natija hisoblanadi va yuboriladi.
             </p>
             <div className="mt-4 flex items-center justify-end gap-2">
               <button
                 type="button"
                 onClick={() => setShowFinishConfirm(false)}
-                className="rounded-full border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700"
+                className="rounded-full border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground transition hover:opacity-90"
               >
                 Bekor qilish
               </button>
               <button
                 type="button"
                 onClick={() => handleFinish(false)}
-                className="rounded-full bg-slate-900 px-3 py-2 text-xs font-semibold text-white"
+                className="rounded-full bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground transition hover:opacity-90"
                 disabled={submitting}
               >
                 {submitting ? "Yuborilmoqda..." : "Yakunlash"}

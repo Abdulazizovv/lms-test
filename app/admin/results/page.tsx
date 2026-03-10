@@ -52,6 +52,7 @@ export default function AdminResults() {
       if (data.ok) {
         setAuthenticated(true);
         sessionStorage.setItem("admin_auth", "true");
+        sessionStorage.setItem("admin_password", password);
       } else {
         setError("Parol noto'g'ri");
       }
@@ -91,23 +92,33 @@ export default function AdminResults() {
     }).format(date);
   };
 
+  const formatDuration = (sec?: number) => {
+    if (typeof sec !== "number" || !Number.isFinite(sec)) return "—";
+    const s = Math.max(Math.floor(sec), 0);
+    const h = Math.floor(s / 3600);
+    const m = Math.floor((s % 3600) / 60);
+    const r = Math.floor(s % 60);
+    if (h > 0) return `${h}:${String(m).padStart(2, "0")}:${String(r).padStart(2, "0")}`;
+    return `${String(m).padStart(2, "0")}:${String(r).padStart(2, "0")}`;
+  };
+
   if (!authenticated) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
         <form
           onSubmit={handleLogin}
-          className="w-full max-w-sm space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+          className="w-full max-w-sm space-y-4 rounded-2xl border border-border bg-card p-6 shadow-sm"
         >
           <div className="space-y-2">
-            <h1 className="text-xl font-semibold text-slate-900">
+            <h1 className="text-xl font-semibold text-foreground">
               Admin Panel
             </h1>
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-muted-foreground">
               Natijalarni ko'rish uchun parolni kiriting.
             </p>
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-700" htmlFor="pwd">
+            <label className="text-sm font-medium text-foreground" htmlFor="pwd">
               Parol
             </label>
             <input
@@ -116,7 +127,7 @@ export default function AdminResults() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Parolni kiriting"
-              className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-slate-400"
+              className="w-full rounded-xl border border-border bg-card px-3 py-2 text-sm text-foreground outline-none transition focus:border-muted-foreground"
               required
             />
           </div>
@@ -127,7 +138,7 @@ export default function AdminResults() {
           ) : null}
           <button
             type="submit"
-            className="w-full rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+            className="w-full rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:opacity-90"
           >
             Kirish
           </button>
@@ -141,27 +152,42 @@ export default function AdminResults() {
       <div className="flex items-center justify-between">
         <Link
           href="/"
-          className="inline-flex items-center gap-1 text-xs text-slate-600 transition hover:text-slate-900"
+          className="inline-flex items-center gap-1 text-xs text-muted-foreground transition hover:text-foreground"
         >
           ← Bosh sahifa
         </Link>
+        <div className="flex items-center gap-2">
+          <Link
+            href="/admin/branches"
+            className="rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-foreground transition hover:opacity-90"
+          >
+            Filiallar
+          </Link>
+          <Link
+            href="/admin/tests"
+            className="rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-foreground transition hover:opacity-90"
+          >
+            Testlar
+          </Link>
         <button
           type="button"
           onClick={() => {
             setAuthenticated(false);
             sessionStorage.removeItem("admin_auth");
+            sessionStorage.removeItem("admin_password");
           }}
-          className="rounded-full border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:border-slate-400"
+          className="rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-foreground transition hover:opacity-90"
         >
           Chiqish
         </button>
+        </div>
       </div>
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-slate-900">
+          <h1 className="text-2xl font-semibold text-foreground">
             Natijalar paneli
           </h1>
-          <p className="text-sm text-slate-600">
+          <p className="text-sm text-muted-foreground">
             Barcha testlar uchun natijalar.
           </p>
         </div>
@@ -174,23 +200,25 @@ export default function AdminResults() {
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Test nomi bo'yicha qidirish"
-            className="w-full rounded-full border border-slate-200 px-4 py-2 text-sm text-slate-700 shadow-sm outline-none transition focus:border-slate-400"
+            className="w-full rounded-full border border-border bg-card px-4 py-2 text-sm text-foreground shadow-sm outline-none transition focus:border-muted-foreground"
           />
         </div>
       </div>
 
       {filtered.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-sm text-slate-500">
+        <div className="rounded-2xl border border-dashed border-border bg-card p-8 text-center text-sm text-muted-foreground">
           Hech narsa topilmadi.
         </div>
       ) : (
-        <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <div className="overflow-x-auto rounded-2xl border border-border bg-card shadow-sm">
           <table className="w-full text-left text-sm">
-            <thead className="border-b border-slate-200 bg-slate-50 text-xs uppercase text-slate-600">
+            <thead className="border-b border-border bg-muted text-xs uppercase text-muted-foreground">
               <tr>
                 <th className="px-4 py-3">Vaqt</th>
+                <th className="px-4 py-3">Sarflangan</th>
                 <th className="px-4 py-3">Ism</th>
                 <th className="px-4 py-3">Yosh</th>
+                <th className="px-4 py-3">Filial</th>
                 <th className="px-4 py-3">Test</th>
                 <th className="px-4 py-3">Score</th>
                 <th className="px-4 py-3">%</th>
@@ -198,25 +226,31 @@ export default function AdminResults() {
                 <th className="px-4 py-3">Amallar</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-200">
+            <tbody className="divide-y divide-border">
               {filtered.map((item) => (
-                <tr key={item.attemptId} className="hover:bg-slate-50">
-                  <td className="whitespace-nowrap px-4 py-3 text-xs text-slate-600">
+                <tr key={item.attemptId} className="hover:bg-muted">
+                  <td className="whitespace-nowrap px-4 py-3 text-xs text-muted-foreground">
                     {formatTime(item.createdAt)}
                   </td>
-                  <td className="px-4 py-3 font-medium text-slate-900">
+                  <td className="whitespace-nowrap px-4 py-3 text-xs text-muted-foreground">
+                    {formatDuration(item.durationSec)}
+                  </td>
+                  <td className="px-4 py-3 font-medium text-foreground">
                     {item.student.name}
                   </td>
-                  <td className="px-4 py-3 text-slate-600">
+                  <td className="px-4 py-3 text-muted-foreground">
                     {item.student.age}
                   </td>
-                  <td className="px-4 py-3 text-slate-700">
+                  <td className="px-4 py-3 text-muted-foreground">
+                    {item.branch?.name ?? "—"}
+                  </td>
+                  <td className="px-4 py-3 text-foreground">
                     {item.test.title}
                   </td>
-                  <td className="px-4 py-3 text-slate-700">
+                  <td className="px-4 py-3 text-foreground">
                     {item.score.correct}/{item.score.total}
                   </td>
-                  <td className="px-4 py-3 font-semibold text-slate-900">
+                  <td className="px-4 py-3 font-semibold text-foreground">
                     {item.score.percent}%
                   </td>
                   <td className="px-4 py-3">
@@ -228,7 +262,7 @@ export default function AdminResults() {
                           ? "bg-amber-50 text-amber-700 border-amber-200"
                           : item.level === "Advanced"
                           ? "bg-rose-50 text-rose-700 border-rose-200"
-                          : "bg-slate-50 text-slate-700 border-slate-200"
+                          : "bg-muted text-muted-foreground border-border"
                       }`}
                     >
                       {item.level}

@@ -7,9 +7,12 @@ import type { ResultRecord } from "@/lib/types";
 import { storageKeys } from "@/lib/storage";
 
 const levelColors: Record<string, string> = {
-  Beginner: "bg-emerald-50 text-emerald-700 border-emerald-200",
-  Intermediate: "bg-amber-50 text-amber-700 border-amber-200",
-  Advanced: "bg-rose-50 text-rose-700 border-rose-200",
+  Beginner:
+    "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950 dark:text-emerald-200 dark:border-emerald-900",
+  Intermediate:
+    "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950 dark:text-amber-200 dark:border-amber-900",
+  Advanced:
+    "bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950 dark:text-rose-200 dark:border-rose-900",
 };
 
 const levelText: Record<string, string> = {
@@ -17,6 +20,16 @@ const levelText: Record<string, string> = {
   Intermediate: "Yaxshi natija! Bir oz amaliyot kerak.",
   Advanced: "A'lo! Siz bu sohani yaxshi bilasiz.",
 };
+
+function formatDuration(totalSec?: number) {
+  if (typeof totalSec !== "number" || !Number.isFinite(totalSec)) return "—";
+  const sec = Math.max(Math.floor(totalSec), 0);
+  const h = Math.floor(sec / 3600);
+  const m = Math.floor((sec % 3600) / 60);
+  const s = Math.floor(sec % 60);
+  if (h > 0) return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+}
 
 export default function ResultClient({ attemptId }: { attemptId: string }) {
   const [result, setResult] = useState<ResultRecord | null>(null);
@@ -36,7 +49,7 @@ export default function ResultClient({ attemptId }: { attemptId: string }) {
 
   if (!result) {
     return (
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-600">
+      <div className="rounded-2xl border border-border bg-card p-6 text-sm text-muted-foreground">
         Natija topilmadi.
       </div>
     );
@@ -46,7 +59,7 @@ export default function ResultClient({ attemptId }: { attemptId: string }) {
     <div className="space-y-6">
       <Link
         href="/"
-        className="inline-flex items-center gap-1 text-xs text-slate-600 transition hover:text-slate-900"
+        className="inline-flex items-center gap-1 text-xs text-muted-foreground transition hover:text-foreground"
       >
         ← Bosh sahifa
       </Link>
@@ -57,33 +70,34 @@ export default function ResultClient({ attemptId }: { attemptId: string }) {
       ) : null}
 
       <div className="space-y-3">
-        <h1 className="text-2xl font-semibold text-slate-900">Natija tayyor</h1>
-        <p className="text-sm text-slate-600">
+        <h1 className="text-2xl font-semibold text-foreground">Natija tayyor</h1>
+        <p className="text-sm text-muted-foreground">
           {result.student.name} ({result.student.age} yosh) —{" "}
           {result.test.title}
         </p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <div className="text-xs text-slate-500">To'g'ri javoblar</div>
-          <div className="mt-1 text-3xl font-semibold text-slate-900">
+        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+          <div className="text-xs text-muted-foreground">To'g'ri javoblar</div>
+          <div className="mt-1 text-3xl font-semibold text-foreground">
             {result.score.correct}
-            <span className="text-sm text-slate-500">/{result.score.total}</span>
+            <span className="text-sm text-muted-foreground">/{result.score.total}</span>
           </div>
         </div>
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <div className="text-xs text-slate-500">Foiz</div>
-          <div className="mt-1 text-3xl font-semibold text-slate-900">
+        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+          <div className="text-xs text-muted-foreground">Foiz</div>
+          <div className="mt-1 text-3xl font-semibold text-foreground">
             {result.score.percent}%
           </div>
         </div>
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <div className="text-xs text-slate-500">Daraja</div>
+        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+          <div className="text-xs text-muted-foreground">Daraja</div>
           <div className="mt-1">
             <span
               className={`inline-flex rounded-full border px-3 py-1 text-sm font-semibold ${
-                levelColors[result.level] ?? "bg-slate-50 text-slate-600 border-slate-200"
+                levelColors[result.level] ??
+                "bg-muted text-muted-foreground border-border"
               }`}
             >
               {result.level}
@@ -92,23 +106,42 @@ export default function ResultClient({ attemptId }: { attemptId: string }) {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="text-sm font-semibold text-slate-900">Fikr</h2>
-        <p className="mt-2 text-sm text-slate-600">
+      <div className="grid gap-6 md:grid-cols-2">
+        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+          <div className="text-xs text-muted-foreground">Sarflangan vaqt</div>
+          <div className="mt-1 text-2xl font-semibold text-foreground">
+            {formatDuration(result.durationSec)}
+          </div>
+        </div>
+        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+          <div className="text-xs text-muted-foreground">Filial</div>
+          <div className="mt-1 text-2xl font-semibold text-foreground">
+            {result.branch?.name ?? "—"}
+          </div>
+        </div>
+      </div>
+
+      <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+        <h2 className="text-sm font-semibold text-foreground">Fikr</h2>
+        <p className="mt-2 text-sm text-muted-foreground">
           {levelText[result.level] ?? "Natija qayd etildi."}
         </p>
       </div>
 
       <div className="flex flex-wrap items-center gap-3">
         <Link
-          href="/tests"
-          className="rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white transition hover:bg-slate-800"
+          href={
+            result.branch?.id
+              ? `/tests?branch=${encodeURIComponent(result.branch.id)}`
+              : "/branches"
+          }
+          className="rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground transition hover:opacity-90"
         >
           Yana test yechish
         </Link>
         <Link
           href="/"
-          className="rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-700 transition hover:border-slate-400"
+          className="rounded-full border border-border bg-card px-4 py-2 text-xs font-semibold text-foreground transition hover:opacity-90"
         >
           Bosh sahifa
         </Link>

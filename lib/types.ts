@@ -3,14 +3,25 @@ export type TestQuestion = {
   question: string;
   options: string[];
   answerIndex: number;
+  imageUrl?: string;
 };
 
 export type Test = {
   id: string;
+  branchId?: string;
   title: string;
   difficulty: "Beginner" | "Intermediate" | "Advanced" | string;
   timeLimitSec?: number;
   questions: TestQuestion[];
+};
+
+export type Branch = {
+  id: string;
+  name: string;
+  description?: string;
+  imageUrl?: string;
+  address?: string;
+  phone?: string;
 };
 
 export type StudentInfo = {
@@ -28,7 +39,9 @@ export type ResultRecord = {
   attemptId: string;
   createdAt: string;
   student: StudentInfo;
+  branch?: { id: string; name: string };
   test: { id: string; title: string };
+  durationSec?: number;
   score: { correct: number; total: number; percent: number };
   level: "Beginner" | "Intermediate" | "Advanced";
   answers: AnswerRecord[];

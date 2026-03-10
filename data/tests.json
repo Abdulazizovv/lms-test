@@ -8,66 +8,116 @@
       {
         "id": "q1",
         "question": "HTML nima uchun ishlatiladi?",
-        "options": ["Ma’lumot saqlash", "Veb sahifa tuzilishini yaratish", "Server yozish", "Dizayn chizish"],
+        "options": [
+          "Ma’lumot saqlash",
+          "Veb sahifa tuzilishini yaratish",
+          "Server yozish",
+          "Dizayn chizish"
+        ],
         "answerIndex": 1
       },
       {
         "id": "q2",
         "question": "HTML fayllar qaysi kengaytmada bo‘ladi?",
-        "options": [".js", ".css", ".html", ".py"],
+        "options": [
+          ".js",
+          ".css",
+          ".html",
+          ".py"
+        ],
         "answerIndex": 2
       },
       {
         "id": "q3",
         "question": "CSS nima vazifani bajaradi?",
-        "options": ["Mantiq yozadi", "Ma’lumot bazasi", "Sahifa dizayni", "Server boshqaradi"],
+        "options": [
+          "Mantiq yozadi",
+          "Ma’lumot bazasi",
+          "Sahifa dizayni",
+          "Server boshqaradi"
+        ],
         "answerIndex": 2
       },
       {
         "id": "q4",
         "question": "CSS fayl qaysi kengaytmada bo‘ladi?",
-        "options": [".html", ".js", ".css", ".json"],
+        "options": [
+          ".html",
+          ".js",
+          ".css",
+          ".json"
+        ],
         "answerIndex": 2
       },
       {
         "id": "q5",
         "question": "JavaScript asosan nima uchun kerak?",
-        "options": ["Dizayn chizish", "Interaktivlik qo‘shish", "Rasm tahrirlash", "Matn yozish"],
+        "options": [
+          "Dizayn chizish",
+          "Interaktivlik qo‘shish",
+          "Rasm tahrirlash",
+          "Matn yozish"
+        ],
         "answerIndex": 1
       },
       {
         "id": "q6",
         "question": "Quyidagilardan qaysi biri JavaScript o‘zgaruvchi?",
-        "options": ["let son = 5", "<son>5</son>", "son:5", "int son = 5"],
+        "options": [
+          "let son = 5",
+          "<son>5</son>",
+          "son:5",
+          "int son = 5"
+        ],
         "answerIndex": 0
       },
       {
         "id": "q7",
         "question": "Button bosilganda ishlaydigan kod qayerda yoziladi?",
-        "options": ["HTML", "CSS", "JavaScript", "PNG"],
+        "options": [
+          "HTML",
+          "CSS",
+          "JavaScript",
+          "PNG"
+        ],
         "answerIndex": 2
       },
       {
         "id": "q8",
         "question": "Frontend deganda nimani tushunasiz?",
-        "options": ["Server qismi", "Foydalanuvchi ko‘radigan qism", "Ma’lumotlar bazasi", "API"],
+        "options": [
+          "Server qismi",
+          "Foydalanuvchi ko‘radigan qism",
+          "Ma’lumotlar bazasi",
+          "API"
+        ],
         "answerIndex": 1
       },
       {
         "id": "q9",
         "question": "Brauzer qaysi tillarni to‘g‘ridan-to‘g‘ri tushunadi?",
-        "options": ["Python", "Java", "HTML, CSS, JS", "C++"],
+        "options": [
+          "Python",
+          "Java",
+          "HTML, CSS, JS",
+          "C++"
+        ],
         "answerIndex": 2
       },
       {
         "id": "q10",
         "question": "Responsive dizayn nimani anglatadi?",
-        "options": ["Faqat telefon uchun", "Faqat kompyuter uchun", "Har xil ekranlarga moslashuv", "Faqat ranglar"],
+        "options": [
+          "Faqat telefon uchun",
+          "Faqat kompyuter uchun",
+          "Har xil ekranlarga moslashuv",
+          "Faqat ranglar"
+        ],
         "answerIndex": 2
       }
-    ]
+    ],
+    "branchId": "main"
   },
-
   {
     "id": "backend-basic-1",
     "title": "Backend Basic - Boshlang‘ich test",
@@ -77,66 +127,117 @@
       {
         "id": "q1",
         "question": "Backend nima?",
-        "options": ["Dizayn qismi", "Server tomoni", "Rasm chizish", "Animatsiya"],
-        "answerIndex": 1
+        "options": [
+          "Dizayn qismi",
+          "Server tomoni",
+          "Rasm chizish",
+          "Animatsiya"
+        ],
+        "answerIndex": 1,
+        "imageUrl": "https://hips.hearstapps.com/hmg-prod/images/ginger-maine-coon-kitten-running-on-lawn-in-royalty-free-image-1719608142.jpg?crop=1xw:0.84415xh;0,0.185xh"
       },
       {
         "id": "q2",
         "question": "Backend qaysi vazifani bajaradi?",
-        "options": ["Rang berish", "Ma’lumotni saqlash va qayta ishlash", "Shrift tanlash", "Layout qilish"],
+        "options": [
+          "Rang berish",
+          "Ma’lumotni saqlash va qayta ishlash",
+          "Shrift tanlash",
+          "Layout qilish"
+        ],
         "answerIndex": 1
       },
       {
         "id": "q3",
         "question": "Python qaysi turdagi til?",
-        "options": ["Faqat frontend", "Backend va boshqa sohalar", "Faqat dizayn", "Faqat mobil"],
+        "options": [
+          "Faqat frontend",
+          "Backend va boshqa sohalar",
+          "Faqat dizayn",
+          "Faqat mobil"
+        ],
         "answerIndex": 1
       },
       {
         "id": "q4",
         "question": "Django nima?",
-        "options": ["Kutubxona", "Framework", "Brauzer", "Operatsion tizim"],
+        "options": [
+          "Kutubxona",
+          "Framework",
+          "Brauzer",
+          "Operatsion tizim"
+        ],
         "answerIndex": 1
       },
       {
         "id": "q5",
         "question": "API nima uchun kerak?",
-        "options": ["Rasm chizish", "Frontend va backend bog‘lash", "Dizayn", "Matn yozish"],
+        "options": [
+          "Rasm chizish",
+          "Frontend va backend bog‘lash",
+          "Dizayn",
+          "Matn yozish"
+        ],
         "answerIndex": 1
       },
       {
         "id": "q6",
         "question": "Ma’lumotlar bazasi nima?",
-        "options": ["Kod muharriri", "Ma’lumot saqlash joyi", "Brauzer", "Framework"],
+        "options": [
+          "Kod muharriri",
+          "Ma’lumot saqlash joyi",
+          "Brauzer",
+          "Framework"
+        ],
         "answerIndex": 1
       },
       {
         "id": "q7",
         "question": "Quyidagilardan qaysi biri backend tili?",
-        "options": ["HTML", "CSS", "Python", "Figma"],
+        "options": [
+          "HTML",
+          "CSS",
+          "Python",
+          "Figma"
+        ],
         "answerIndex": 2
       },
       {
         "id": "q8",
         "question": "Server deganda nimani tushunasiz?",
-        "options": ["Kompyuter o‘yini", "Xizmat ko‘rsatuvchi kompyuter", "Rasm", "Telefon"],
+        "options": [
+          "Kompyuter o‘yini",
+          "Xizmat ko‘rsatuvchi kompyuter",
+          "Rasm",
+          "Telefon"
+        ],
         "answerIndex": 1
       },
       {
         "id": "q9",
         "question": "HTTP nima?",
-        "options": ["Dizayn uslubi", "Aloqa protokoli", "Rasm formati", "Til"],
+        "options": [
+          "Dizayn uslubi",
+          "Aloqa protokoli",
+          "Rasm formati",
+          "Til"
+        ],
         "answerIndex": 1
       },
       {
         "id": "q10",
         "question": "Backend foydalanuvchiga ko‘rinadimi?",
-        "options": ["Ha", "Yo‘q", "Faqat dizayni", "Faqat ranglari"],
+        "options": [
+          "Ha",
+          "Yo‘q",
+          "Faqat dizayni",
+          "Faqat ranglari"
+        ],
         "answerIndex": 1
       }
-    ]
+    ],
+    "branchId": "main"
   },
-
   {
     "id": "english-cefr-a1",
     "title": "English CEFR - A1/A2 Placement",
@@ -146,66 +247,116 @@
       {
         "id": "q1",
         "question": "Choose the correct sentence:",
-        "options": ["She go to school", "She goes to school", "She going school", "She gone school"],
+        "options": [
+          "She go to school",
+          "She goes to school",
+          "She going school",
+          "She gone school"
+        ],
         "answerIndex": 1
       },
       {
         "id": "q2",
         "question": "What is the plural of 'child'?",
-        "options": ["Childs", "Childes", "Children", "Child"],
+        "options": [
+          "Childs",
+          "Childes",
+          "Children",
+          "Child"
+        ],
         "answerIndex": 2
       },
       {
         "id": "q3",
         "question": "Choose the correct word: I ___ a student.",
-        "options": ["am", "is", "are", "be"],
+        "options": [
+          "am",
+          "is",
+          "are",
+          "be"
+        ],
         "answerIndex": 0
       },
       {
         "id": "q4",
         "question": "What is the past of 'go'?",
-        "options": ["goed", "gone", "went", "going"],
+        "options": [
+          "goed",
+          "gone",
+          "went",
+          "going"
+        ],
         "answerIndex": 2
       },
       {
         "id": "q5",
         "question": "Choose the correct question:",
-        "options": ["Where you are?", "Where are you?", "Where is you?", "Where you is?"],
+        "options": [
+          "Where you are?",
+          "Where are you?",
+          "Where is you?",
+          "Where you is?"
+        ],
         "answerIndex": 1
       },
       {
         "id": "q6",
         "question": "Which one is a verb?",
-        "options": ["Book", "Run", "Blue", "Table"],
+        "options": [
+          "Book",
+          "Run",
+          "Blue",
+          "Table"
+        ],
         "answerIndex": 1
       },
       {
         "id": "q7",
         "question": "I have ___ apple.",
-        "options": ["a", "an", "the", "no"],
+        "options": [
+          "a",
+          "an",
+          "the",
+          "no"
+        ],
         "answerIndex": 1
       },
       {
         "id": "q8",
         "question": "Choose correct negative form: He ___ like milk.",
-        "options": ["don’t", "doesn’t", "isn’t", "aren’t"],
+        "options": [
+          "don’t",
+          "doesn’t",
+          "isn’t",
+          "aren’t"
+        ],
         "answerIndex": 1
       },
       {
         "id": "q9",
         "question": "What time is '07:30'?",
-        "options": ["Seven thirty", "Half seven", "Seven past thirty", "Thirty seven"],
+        "options": [
+          "Seven thirty",
+          "Half seven",
+          "Seven past thirty",
+          "Thirty seven"
+        ],
         "answerIndex": 0
       },
       {
         "id": "q10",
         "question": "Choose the correct preposition: I am ___ home.",
-        "options": ["in", "at", "on", "to"],
+        "options": [
+          "in",
+          "at",
+          "on",
+          "to"
+        ],
         "answerIndex": 1
       }
-    ]
+    ],
+    "branchId": "main"
   },
-
   {
     "id": "design-basic-1",
     "title": "Graphic Design - Boshlang‘ich test",
@@ -215,63 +366,114 @@
       {
         "id": "q1",
         "question": "Grafik dizayn nima?",
-        "options": ["Kod yozish", "Vizual dizayn yaratish", "Server sozlash", "Matematika"],
+        "options": [
+          "Kod yozish",
+          "Vizual dizayn yaratish",
+          "Server sozlash",
+          "Matematika"
+        ],
         "answerIndex": 1
       },
       {
         "id": "q2",
         "question": "Quyidagilardan qaysi biri dizayn dasturi?",
-        "options": ["VS Code", "Figma", "Python", "Chrome"],
+        "options": [
+          "VS Code",
+          "Figma",
+          "Python",
+          "Chrome"
+        ],
         "answerIndex": 1
       },
       {
         "id": "q3",
         "question": "Logo nima?",
-        "options": ["Matn", "Brend belgisi", "Kod", "Rasm formati"],
+        "options": [
+          "Matn",
+          "Brend belgisi",
+          "Kod",
+          "Rasm formati"
+        ],
         "answerIndex": 1
       },
       {
         "id": "q4",
         "question": "RGB nima?",
-        "options": ["Shrift turi", "Rang modeli", "Fayl turi", "O‘lcham"],
+        "options": [
+          "Shrift turi",
+          "Rang modeli",
+          "Fayl turi",
+          "O‘lcham"
+        ],
         "answerIndex": 1
       },
       {
         "id": "q5",
         "question": "Dizaynda bo‘sh joy (space) nima uchun kerak?",
-        "options": ["Joy to‘ldirish", "O‘qishni yengillashtirish", "Rasm qo‘shish", "Kod yozish"],
+        "options": [
+          "Joy to‘ldirish",
+          "O‘qishni yengillashtirish",
+          "Rasm qo‘shish",
+          "Kod yozish"
+        ],
         "answerIndex": 1
       },
       {
         "id": "q6",
         "question": "Typography nimani anglatadi?",
-        "options": ["Ranglar", "Shriftlar bilan ishlash", "Rasm chizish", "Animatsiya"],
+        "options": [
+          "Ranglar",
+          "Shriftlar bilan ishlash",
+          "Rasm chizish",
+          "Animatsiya"
+        ],
         "answerIndex": 1
       },
       {
         "id": "q7",
         "question": "Minimal dizayn nimani anglatadi?",
-        "options": ["Ko‘p rang", "Ko‘p element", "Oddiy va toza", "Murakkab"],
+        "options": [
+          "Ko‘p rang",
+          "Ko‘p element",
+          "Oddiy va toza",
+          "Murakkab"
+        ],
         "answerIndex": 2
       },
       {
         "id": "q8",
         "question": "UX nima?",
-        "options": ["User Experience", "User Export", "Ultra XML", "Unique X"],
+        "options": [
+          "User Experience",
+          "User Export",
+          "Ultra XML",
+          "Unique X"
+        ],
         "answerIndex": 0
       },
       {
         "id": "q9",
         "question": "UI nima?",
-        "options": ["User Internet", "User Interface", "Unique Icon", "Ultra Image"],
+        "options": [
+          "User Internet",
+          "User Interface",
+          "Unique Icon",
+          "Ultra Image"
+        ],
         "answerIndex": 1
       },
       {
         "id": "q10",
         "question": "Yaxshi dizayn nimani ta’minlaydi?",
-        "options": ["Chiroyli kod", "Qulay foydalanish", "Tez internet", "Ko‘p matn"],
+        "options": [
+          "Chiroyli kod",
+          "Qulay foydalanish",
+          "Tez internet",
+          "Ko‘p matn"
+        ],
         "answerIndex": 1
       }
-    ]
+    ],
+    "branchId": "main"
   }
 ]

@@ -7,7 +7,13 @@ import { storageKeys } from "@/lib/storage";
 
 const emptyStudent = { name: "", age: "" };
 
-export default function StartClient({ test }: { test: Test }) {
+export default function StartClient({
+  test,
+  branch,
+}: {
+  test: Test;
+  branch: { id: string; name: string };
+}) {
   const router = useRouter();
   const [form, setForm] = useState(emptyStudent);
   const [error, setError] = useState("");
@@ -51,32 +57,34 @@ export default function StartClient({ test }: { test: Test }) {
     localStorage.removeItem(storageKeys.answers(test.id));
     localStorage.removeItem(storageKeys.quizProgress(test.id));
 
-    router.push(`/quiz/${test.id}`);
+    router.push(`/quiz/${test.id}?branch=${encodeURIComponent(branch.id)}`);
   };
 
   return (
     <div className="space-y-6">
       <button
         type="button"
-        onClick={() => router.push("/tests")}
-        className="inline-flex items-center gap-1 text-xs text-slate-600 transition hover:text-slate-900"
+        onClick={() => router.push(`/tests?branch=${encodeURIComponent(branch.id)}`)}
+        className="inline-flex items-center gap-1 text-xs text-muted-foreground transition hover:text-foreground"
       >
         ← Testlar ro'yxatiga qaytish
       </button>
       <div className="space-y-2">
-        <span className="text-xs text-slate-500">Test</span>
-        <h1 className="text-2xl font-semibold text-slate-900">{test.title}</h1>
-        <p className="text-sm text-slate-600">
+        <span className="text-xs text-muted-foreground">
+          Filial: <span className="font-medium text-foreground">{branch.name}</span>
+        </span>
+        <h1 className="text-2xl font-semibold text-foreground">{test.title}</h1>
+        <p className="text-sm text-muted-foreground">
           Iltimos, ma'lumotlaringizni kiriting.
         </p>
       </div>
 
       <form
         onSubmit={handleSubmit}
-        className="grid gap-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm md:max-w-lg"
+        className="grid gap-4 rounded-2xl border border-border bg-card p-6 shadow-sm md:max-w-lg"
       >
         <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-700" htmlFor="name">
+          <label className="text-sm font-medium text-foreground" htmlFor="name">
             Ism
           </label>
           <input
@@ -84,12 +92,12 @@ export default function StartClient({ test }: { test: Test }) {
             value={form.name}
             onChange={(event) => setForm({ ...form, name: event.target.value })}
             placeholder="Masalan: Ali"
-            className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-slate-400"
+            className="w-full rounded-xl border border-border bg-card px-3 py-2 text-sm text-foreground outline-none transition focus:border-muted-foreground"
             required
           />
         </div>
         <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-700" htmlFor="age">
+          <label className="text-sm font-medium text-foreground" htmlFor="age">
             Yosh
           </label>
           <input
@@ -100,7 +108,7 @@ export default function StartClient({ test }: { test: Test }) {
             value={form.age}
             onChange={(event) => setForm({ ...form, age: event.target.value })}
             placeholder="Masalan: 14"
-            className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-slate-400"
+            className="w-full rounded-xl border border-border bg-card px-3 py-2 text-sm text-foreground outline-none transition focus:border-muted-foreground"
             required
           />
         </div>
@@ -111,7 +119,7 @@ export default function StartClient({ test }: { test: Test }) {
         ) : null}
         <button
           type="submit"
-          className="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
+          className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:opacity-90"
         >
           Davom etish
         </button>

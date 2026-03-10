@@ -1,22 +1,37 @@
-import { readTests } from "@/lib/data";
+import { redirect } from "next/navigation";
+import { readBranches, readTests } from "@/lib/data";
 import StartClient from "@/app/start/[testId]/StartClient";
 
 export default async function StartPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ testId: string }>;
+  searchParams: Promise<{ branch?: string }>;
 }) {
   const { testId } = await params;
+  const { branch } = await searchParams;
+  if (!branch) redirect("/branches");
+
+  const branches = await readBranches();
+  const selectedBranch = branches.find((item) => item.id === branch);
+  if (!selectedBranch) redirect("/branches");
+
   const tests = await readTests();
   const test = tests.find((item) => item.id === testId);
 
   if (!test) {
     return (
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 text-sm text-slate-600">
+      <div className="rounded-2xl border border-border bg-card p-6 text-sm text-muted-foreground">
         Test topilmadi.
       </div>
     );
   }
 
-  return <StartClient test={test} />;
+  return (
+    <StartClient
+      test={test}
+      branch={{ id: selectedBranch.id, name: selectedBranch.name }}
+    />
+  );
 }

@@ -11,7 +11,7 @@ export default function ResultPage({
   return (
     <Suspense
       fallback={
-        <div className="text-sm text-slate-600">Natija yuklanmoqda...</div>
+        <div className="text-sm text-muted-foreground">Natija yuklanmoqda...</div>
       }
     >
       <ResultClient attemptId={attemptId} />

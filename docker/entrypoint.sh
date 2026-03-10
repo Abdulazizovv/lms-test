@@ -8,6 +8,10 @@ if [ -f /app/data-seed/tests.json ] && [ ! -f /app/data/tests.json ]; then
   cp /app/data-seed/tests.json /app/data/tests.json
 fi
 
+if [ -f /app/data-seed/branches.json ] && [ ! -f /app/data/branches.json ]; then
+  cp /app/data-seed/branches.json /app/data/branches.json
+fi
+
 if [ -f /app/data-seed/results.json ] && [ ! -f /app/data/results.json ]; then
   cp /app/data-seed/results.json /app/data/results.json
 fi

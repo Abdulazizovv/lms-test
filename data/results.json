@@ -1,85 +1,20 @@
 [
   {
-    "attemptId": "f7553f05-075d-4555-b1d3-4b708ed801a9",
-    "createdAt": "2026-02-07T11:12:46.276Z",
-    "student": {
-      "name": "Ali",
-      "age": 14
-    },
-    "test": {
-      "id": "python-basic-1",
-      "title": "Python Basic - Kirish testi"
-    },
-    "score": {
-      "correct": 0,
-      "total": 3,
-      "percent": 0
-    },
-    "level": "Beginner",
-    "answers": [
-      {
-        "questionId": "q1",
-        "selectedIndex": 0,
-        "isCorrect": false
-      },
-      {
-        "questionId": "q2",
-        "selectedIndex": 2,
-        "isCorrect": false
-      },
-      {
-        "questionId": "q3",
-        "selectedIndex": 3,
-        "isCorrect": false
-      }
-    ]
-  },
-  {
-    "attemptId": "f6ef4009-0c94-4f6a-9e79-5607c02c35ec",
-    "createdAt": "2026-02-07T11:22:36.467Z",
-    "student": {
-      "name": "Ali11234",
-      "age": 14
-    },
-    "test": {
-      "id": "js-basic-1",
-      "title": "JavaScript Basic - Tezkor test"
-    },
-    "score": {
-      "correct": 0,
-      "total": 3,
-      "percent": 0
-    },
-    "level": "Beginner",
-    "answers": [
-      {
-        "questionId": "q1",
-        "selectedIndex": 0,
-        "isCorrect": false
-      },
-      {
-        "questionId": "q2",
-        "selectedIndex": 2,
-        "isCorrect": false
-      },
-      {
-        "questionId": "q3",
-        "selectedIndex": 3,
-        "isCorrect": false
-      }
-    ]
-  },
-  {
-    "attemptId": "b317d8cd-03a6-4f98-a8b9-e6bbbd89cd67",
-    "createdAt": "2026-02-07T11:31:09.805Z",
+    "attemptId": "492fd3ad-9c5a-4dc9-b28f-a6cb5cf96452",
+    "createdAt": "2026-03-10T03:47:23.002Z",
     "student": {
       "name": "Ulugbek",
       "age": 20
     },
-    "test": {
-      "id": "backend-basic-1",
-      "title": "Backend Basic - Boshlang‘ich test"
+    "branch": {
+      "id": "main",
+      "name": "Asosiy filial"
     },
+    "test": {
+      "id": "frontend-basic-1",
+      "title": "Frontend Basic - Boshlang‘ich test"
+    },
+    "durationSec": 15,
     "score": {
       "correct": 0,
       "total": 10,
@@ -99,7 +34,7 @@
       },
       {
         "questionId": "q3",
-        "selectedIndex": 2,
+        "selectedIndex": 3,
         "isCorrect": false
       },
       {
@@ -114,27 +49,27 @@
       },
       {
         "questionId": "q6",
-        "selectedIndex": null,
+        "selectedIndex": 3,
         "isCorrect": false
       },
       {
         "questionId": "q7",
-        "selectedIndex": null,
+        "selectedIndex": 3,
         "isCorrect": false
       },
       {
         "questionId": "q8",
-        "selectedIndex": null,
+        "selectedIndex": 3,
         "isCorrect": false
       },
       {
         "questionId": "q9",
-        "selectedIndex": null,
+        "selectedIndex": 3,
         "isCorrect": false
       },
       {
         "questionId": "q10",
-        "selectedIndex": null,
+        "selectedIndex": 3,
         "isCorrect": false
       }
     ]

@@ -1,16 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import Link from "next/link";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import ThemeToggle from "@/app/ThemeToggle";
 
 export const metadata: Metadata = {
   title: "Assessment Platform",
@@ -23,35 +14,45 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="uz">
+    <html lang="uz" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-slate-900`}
+        className="antialiased bg-background text-foreground"
       >
+        <script
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){try{var t=localStorage.getItem('theme');if(t==='dark'){document.documentElement.classList.add('dark');}else{document.documentElement.classList.remove('dark');}var p=location&&location.pathname?location.pathname:'';document.documentElement.classList.toggle('focus-quiz',p.indexOf('/quiz/')===0);}catch(e){}})();",
+          }}
+        />
         <div className="min-h-screen">
-          <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/80 backdrop-blur">
+          <header className="sticky top-0 z-40 border-b border-border bg-background backdrop-blur">
             <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:px-6">
               <div className="flex items-center gap-2">
-                <div className="h-2 w-2 rounded-full bg-slate-900" />
-                <span className="text-sm font-semibold tracking-tight">Assessment</span>
+                <div className="h-2 w-2 rounded-full bg-primary" />
+                <span className="text-sm font-semibold tracking-tight text-foreground">
+                  Assessment
+                </span>
               </div>
-              <nav className="flex items-center gap-4 text-sm text-slate-600">
-                <a className="transition hover:text-slate-900" href="/">
+              <nav className="flex items-center gap-4 text-sm text-muted-foreground">
+                <Link className="transition hover:text-foreground" href="/">
                   Bosh sahifa
-                </a>
-                <a className="transition hover:text-slate-900" href="/tests">
-                  Testlar
-                </a>
-                <a className="transition hover:text-slate-900" href="/admin/results">
+                </Link>
+                <Link className="transition hover:text-foreground" href="/branches">
+                  Filiallar
+                </Link>
+                <Link className="transition hover:text-foreground" href="/admin/results">
                   Natijalar
-                </a>
+                </Link>
+                <ThemeToggle />
               </nav>
             </div>
           </header>
           <main className="mx-auto max-w-6xl px-4 py-8 md:px-6">
             {children}
           </main>
-          <footer className="border-t border-slate-200 bg-white py-6">
-            <div className="mx-auto max-w-6xl px-4 text-center text-xs text-slate-500 md:px-6">
+          <footer className="border-t border-border bg-background py-6">
+            <div className="mx-auto max-w-6xl px-4 text-center text-xs text-muted-foreground md:px-6">
               © {new Date().getFullYear()} IT Academy Kokand tomonidan ishlab chiqilgan
             </div>
           </footer>

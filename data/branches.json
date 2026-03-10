@@ -1,0 +1,18 @@
+[
+  {
+    "id": "main",
+    "name": "Asosiy filial",
+    "description": "IT Academy — asosiy filial",
+    "imageUrl": "",
+    "address": "",
+    "phone": ""
+  },
+  {
+    "id": "dangara",
+    "name": "Dang'ara filial",
+    "description": "",
+    "imageUrl": "",
+    "address": "",
+    "phone": ""
+  }
+]
