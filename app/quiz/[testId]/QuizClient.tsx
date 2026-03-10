@@ -167,11 +167,17 @@ export default function QuizClient({ test }: { test: Test }) {
 
     if (!submitted.includes(attemptId)) {
       try {
-        await fetch("/api/submit", {
+        const res = await fetch("/api/submit", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         });
+        const body = (await res.json().catch(() => null)) as
+          | { ok?: boolean; telegram?: { ok: boolean; skipped?: boolean; description?: string } }
+          | null;
+        if (body?.telegram && body.telegram.ok === false) {
+          console.warn("Telegram notification failed:", body.telegram.description);
+        }
         localStorage.setItem(
           submittedKey,
           JSON.stringify([...submitted, attemptId])
