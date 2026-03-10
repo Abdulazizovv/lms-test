@@ -33,19 +33,40 @@ function formatDuration(totalSec?: number) {
 
 export default function ResultClient({ attemptId }: { attemptId: string }) {
   const [result, setResult] = useState<ResultRecord | null>(null);
+  const [loading, setLoading] = useState(true);
   const searchParams = useSearchParams();
   const isAuto = searchParams?.get("auto") === "1";
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     const raw = localStorage.getItem(storageKeys.result(attemptId));
-    if (!raw) return;
-    try {
-      setResult(JSON.parse(raw));
-    } catch {
-      // ignore parse errors
+    if (raw) {
+      try {
+        setResult(JSON.parse(raw));
+        setLoading(false);
+        return;
+      } catch {
+        // ignore parse errors
+      }
     }
+
+    fetch(`/api/results/${encodeURIComponent(attemptId)}`)
+      .then((res) => res.json())
+      .then((data) => {
+        const parsed = data as { ok?: boolean; result?: ResultRecord };
+        if (parsed?.ok && parsed.result) setResult(parsed.result);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
   }, [attemptId]);
+
+  if (!result && loading) {
+    return (
+      <div className="rounded-2xl border border-border bg-card p-6 text-sm text-muted-foreground">
+        Natija yuklanmoqda...
+      </div>
+    );
+  }
 
   if (!result) {
     return (

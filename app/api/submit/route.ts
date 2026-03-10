@@ -8,9 +8,10 @@ type TelegramSendOutcome =
   | { ok: true; skipped: boolean }
   | { ok: false; skipped: false; status?: number; description: string };
 
-async function sendTelegram(result: ResultRecord): Promise<TelegramSendOutcome> {
+async function sendTelegram(result: ResultRecord, origin: string): Promise<TelegramSendOutcome> {
   const botToken = (process.env.TELEGRAM_BOT_TOKEN ?? "").trim();
   const chatId = (process.env.TELEGRAM_CHAT_ID ?? "").trim();
+  const publicAppUrl = (process.env.PUBLIC_APP_URL ?? "").trim();
 
   if (!botToken || !chatId) {
     console.warn(
@@ -59,51 +60,112 @@ async function sendTelegram(result: ResultRecord): Promise<TelegramSendOutcome> 
     `<b>Attempt:</b> <code>${esc(result.attemptId)}</code>`,
   ].join("\n");
 
-  const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+  const caption = [
+    "<b>Test natijasi</b>",
+    `<b>O‘quvchi:</b> ${esc(result.student.name)} (${result.student.age})`,
+    `<b>Filial:</b> ${esc(result.branch?.name ?? "—")}`,
+    `<b>Test:</b> ${esc(result.test.title)} <code>${esc(result.test.id)}</code>`,
+    `<b>Natija:</b> ${result.score.correct}/${result.score.total} (${result.score.percent}%) • <b>${esc(result.level)}</b>`,
+    `<b>Sarflangan:</b> ${formatDuration(result.durationSec)} • <b>${esc(uzbekTime)}</b>`,
+  ].join("\n");
 
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 10_000);
+  const resultUrl = publicAppUrl
+    ? new URL(`/result/${result.attemptId}`, publicAppUrl).toString()
+    : "";
+
+  const replyMarkup = resultUrl
+    ? { inline_keyboard: [[{ text: "Natijani ko‘rish", url: resultUrl }]] }
+    : undefined;
+
+  const splitMessage = (value: string, maxLen: number) => {
+    if (value.length <= maxLen) return [value];
+    const parts: string[] = [];
+    let current = "";
+    for (const line of value.split("\n")) {
+      const next = current ? `${current}\n${line}` : line;
+      if (next.length > maxLen) {
+        if (current) parts.push(current);
+        current = line;
+        continue;
+      }
+      current = next;
+    }
+    if (current) parts.push(current);
+    return parts.length ? parts : [value.slice(0, maxLen)];
+  };
+
+  const describeFetchError = (error: unknown) => {
+    if (!(error instanceof Error)) return String(error);
+    const anyErr = error as Error & { cause?: unknown; code?: unknown };
+    const parts = [anyErr.message];
+    if (anyErr.code) parts.push(`code=${String(anyErr.code)}`);
+    if (anyErr.cause instanceof Error) parts.push(`cause=${anyErr.cause.message}`);
+    else if (anyErr.cause) parts.push(`cause=${String(anyErr.cause)}`);
+    return parts.filter(Boolean).join(" ");
+  };
+
+  const makeRequest = async (url: string, init: RequestInit) => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10_000);
+    try {
+      const res = await fetch(url, { ...init, signal: controller.signal });
+      const raw = await res.text();
+      if (!res.ok) {
+        console.error("Telegram API failed:", res.status, raw);
+        return { ok: false as const, status: res.status, raw };
+      }
+      try {
+        const parsed = JSON.parse(raw) as { ok?: boolean; description?: string };
+        if (parsed?.ok === false) {
+          console.error("Telegram API returned ok=false:", raw);
+          return { ok: false as const, status: res.status, raw };
+        }
+      } catch {
+        // ignore JSON parse errors for successful HTTP
+      }
+      return { ok: true as const, raw };
+    } catch (error: unknown) {
+      const message = describeFetchError(error);
+      console.error("Telegram API error:", message);
+      return { ok: false as const, raw: message };
+    } finally {
+      clearTimeout(timeoutId);
+    }
+  };
+
   try {
-    const res = await fetch(url, {
+    // Send main info as text (+ inline button).
+    const sendMessageUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+    const chunks = splitMessage(text, 3500);
+    const firstRes = await makeRequest(sendMessageUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         chat_id: chatId,
-        text,
+        text: chunks[0],
         parse_mode: "HTML",
         disable_web_page_preview: true,
+        ...(replyMarkup ? { reply_markup: replyMarkup } : {}),
       }),
-      signal: controller.signal,
     });
-
-    const raw = await res.text();
-    if (!res.ok) {
-      console.error("Telegram sendMessage failed:", res.status, raw);
-      return { ok: false, skipped: false, status: res.status, description: raw };
+    if (!firstRes.ok) return { ok: false, skipped: false, description: firstRes.raw };
+    for (let i = 1; i < chunks.length; i += 1) {
+      await makeRequest(sendMessageUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: chunks[i],
+          parse_mode: "HTML",
+          disable_web_page_preview: true,
+        }),
+      });
     }
-
-    try {
-      const parsed = JSON.parse(raw) as { ok?: boolean; description?: string };
-      if (parsed?.ok === false) {
-        console.error("Telegram sendMessage returned ok=false:", raw);
-        return {
-          ok: false,
-          skipped: false,
-          status: res.status,
-          description: parsed.description ?? raw,
-        };
-      }
-    } catch {
-      // Telegram normally returns JSON, but if not, treat as success if HTTP 2xx.
-    }
-
     return { ok: true, skipped: false };
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : String(error);
+    const message = describeFetchError(error);
     console.error("Telegram sendMessage error:", message);
     return { ok: false, skipped: false, description: message };
-  } finally {
-    clearTimeout(timeoutId);
   }
 }
 
@@ -120,7 +182,10 @@ export async function POST(request: Request) {
     results.push(payload);
     await writeResults(results);
 
-    const telegram = await sendTelegram(payload);
+    const origin = new URL(request.url).origin;
+    const internalBase =
+      (process.env.INTERNAL_BASE_URL ?? "").trim() || origin || "http://127.0.0.1:3000";
+    const telegram = await sendTelegram(payload, internalBase);
 
     return NextResponse.json({ ok: true, telegram });
   } catch (error: unknown) {

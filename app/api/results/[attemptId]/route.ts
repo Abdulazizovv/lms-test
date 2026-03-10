@@ -1,6 +1,24 @@
 import { NextResponse } from "next/server";
 import { readResults, writeResults } from "@/lib/data";
 
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ attemptId: string }> }
+) {
+  try {
+    const { attemptId } = await params;
+    const results = await readResults();
+    const found = results.find((item) => item.attemptId === attemptId);
+    if (!found) {
+      return NextResponse.json({ ok: false, error: "Result not found" }, { status: 404 });
+    }
+    return NextResponse.json({ ok: true, result: found });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
+  }
+}
+
 export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ attemptId: string }> }

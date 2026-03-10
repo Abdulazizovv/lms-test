@@ -269,14 +269,22 @@ export default function AdminResults() {
                     </span>
                   </td>
                   <td className="px-4 py-3">
-                    <button
-                      type="button"
-                      onClick={() => handleDelete(item.attemptId)}
-                      disabled={deleting === item.attemptId}
-                      className="rounded-lg border border-rose-200 bg-rose-50 px-2 py-1 text-xs font-medium text-rose-700 transition hover:bg-rose-100 disabled:cursor-not-allowed disabled:opacity-50"
-                    >
-                      {deleting === item.attemptId ? "O'chirilmoqda..." : "O'chirish"}
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <Link
+                        href={`/admin/results/${encodeURIComponent(item.attemptId)}`}
+                        className="rounded-lg border border-border bg-card px-2 py-1 text-xs font-medium text-foreground transition hover:opacity-90"
+                      >
+                        Ko‘rish
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(item.attemptId)}
+                        disabled={deleting === item.attemptId}
+                        className="rounded-lg border border-rose-200 bg-rose-50 px-2 py-1 text-xs font-medium text-rose-700 transition hover:bg-rose-100 disabled:cursor-not-allowed disabled:opacity-50"
+                      >
+                        {deleting === item.attemptId ? "O'chirilmoqda..." : "O'chirish"}
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
