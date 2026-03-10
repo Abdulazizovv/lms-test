@@ -475,5 +475,344 @@
       }
     ],
     "branchId": "main"
-  }
+  },
+  {
+  "id": "biology-variant-4",
+  "title": "Biologiya Test - 4 Variant",
+  "difficulty": "Advanced",
+  "timeLimitSec": 1800,
+  "questions": [
+    {
+      "id": "q1",
+      "question": "Quyidagi o‘simliklarni ularga xos belgilar bilan moslashtiring.",
+      "options": [
+        "Qiyshiq gulli-1,6,8; ko‘p urug‘li quruq meva-3,4,8",
+        "Gultojibarglari qo‘shilgan-3,9,10; to‘g‘ri gulli-3,5",
+        "Ko‘p urug‘li ho‘l meva-4,5,9; ayrim jinsli-9,10",
+        "Uch bargchali-1,5,6; oddiy shingil to‘pgulli-7,8"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q2",
+      "question": "Quyidagi o‘simliklarni ular kelib chiqqan davrlar bilan moslashtiring.",
+      "options": [
+        "Ochiq urug‘lilar-toshko‘mir, sianobakteriyalar-arxey",
+        "Gulli o‘simliklar-trias, psilofitlar-silur",
+        "Ikki urug‘pallalilar-bor, arxeopteriks-yura",
+        "Magnoliyatoifa-yura, qarag‘aytoifa-toshko‘mir"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q3",
+      "question": "G‘o‘za, soya, javdar va kartoshka o‘simliklari uchun to‘g‘ri moslashuvni aniqlang.",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q4",
+      "question": "Diagrammaga qarab to‘g‘ri javobni aniqlang.",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q5",
+      "question": "Quyidagi o‘simliklarni to‘pgul tuzilishi bilan moslashtiring.",
+      "options": [
+        "Variant A",
+        "Variant B",
+        "Variant C",
+        "Variant D"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q6",
+      "question": "Gulkosachabarglari va gultojibarglari qo‘shilgan yoki erkin bo‘lgan o‘simliklar sonini aniqlang.",
+      "options": [
+        "a-5 ta, b-2 ta, c-3 ta",
+        "a-3 ta, b-2 ta, c-5 ta",
+        "a-3 ta, b-4 ta, c-3 ta",
+        "a-5 ta, b-3 ta, c-2 ta"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q7",
+      "question": "Jadvaldagi I, II, III, IV, V o‘simliklarni to‘g‘ri moslashtiring.",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q8",
+      "question": "Tiroksin gormoni haqida to‘g‘ri fikrni aniqlang.",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q9",
+      "question": "Grafikdan foydalanib o‘simliklar xromosoma va xromatidalar sonini aniqlang.",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q10",
+      "question": "Xromosoma yoki xromatida soni bo‘yicha moslashtirilgan javobni toping.",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q11",
+      "question": "Biotsenozda o‘simliklarning vertikal yaruslilik bo‘yicha to‘g‘ri joylashuvini aniqlang.",
+      "options": [
+        "Variant A",
+        "Variant B",
+        "Variant C",
+        "Variant D"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q12",
+      "question": "CO2 → C6H12O6 → 2C3H6O3 jarayonlariga mos javobni toping.",
+      "options": [
+        "Variant A",
+        "Variant B",
+        "Variant C",
+        "Variant D"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q13",
+      "question": "EcoR1 va pBR322 monomerlari qanday bog‘ bilan bog‘langan?",
+      "options": [
+        "Peptid / Fosfodiefir",
+        "Fosfodiefir / Peptid",
+        "Peptid / Peptid",
+        "Fosfodiefir / Fosfodiefir"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q14",
+      "question": "Sterlyard va anturium organizmlariga xos belgilarni aniqlang.",
+      "options": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q15",
+      "question": "Maralning spermatogenez yetilish bosqichiga mos javobni aniqlang.",
+      "options": [
+        "Variant A",
+        "Variant B",
+        "Variant C",
+        "Variant D"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q16",
+      "question": "Rasmda berilgan organizmga xos javobni aniqlang.",
+      "options": [
+        "Variant A",
+        "Variant B",
+        "Variant C",
+        "Variant D"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q17",
+      "question": "Turning mezonlariga mos misollarni aniqlang.",
+      "options": [
+        "1–c; 2–b; 3–d; 4–a",
+        "1–b; 2–d; 3–a; 4–c",
+        "1–c; 2–d; 3–b; 4–a",
+        "1–b; 2–a; 3–d; 4–c"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q18",
+      "question": "Pixta va Betaga uchun evolyutsion tuzilmalarni aniqlang.",
+      "options": [
+        "Changdon / Meva",
+        "Urug‘ / Qalin barg qobig‘i",
+        "Ignasimon barg / Rangli gultojibarg",
+        "Tuxum hujayra / Qo‘sh urug‘lanish"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q19",
+      "question": "O‘simliklarni to‘pgul tuzilishi bilan moslashtiring.",
+      "options": [
+        "Variant A",
+        "Variant B",
+        "Variant C",
+        "Variant D"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q20",
+      "question": "Og‘iz apparati kemiruvchi va so‘ruvchi tipda bo‘lgan organizmlarni aniqlang.",
+      "options": [
+        "Variant A",
+        "Variant B",
+        "Variant C",
+        "Variant D"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q21",
+      "question": "Bitiniya bilan bir tipga, featon bilan bir turkumga, qoraqurt bilan bir sinfga mansub organizmlarni aniqlang.",
+      "options": [
+        "Variant A",
+        "Variant B",
+        "Variant C",
+        "Variant D"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q22",
+      "question": "Suqsun uchun xos bo‘lgan morfofiziologik yuksalish belgilarini aniqlang.",
+      "options": [
+        "Variant A",
+        "Variant B",
+        "Variant C",
+        "Variant D"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q23",
+      "question": "Rasmdagi A va B tuzilmalarga ega organizmlarni aniqlang.",
+      "options": [
+        "Variant A",
+        "Variant B",
+        "Variant C",
+        "Variant D"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q24",
+      "question": "Riniya evolyutsiyasi bo‘yicha 1 va 2 ga mos o‘simliklarni aniqlang.",
+      "options": [
+        "Qirqquloqlar / Yopiq urug‘lilar",
+        "Qirqbo‘g‘imlar / Qirqquloqlar",
+        "Ochiq urug‘lilar / Yopiq urug‘lilar",
+        "Suvo‘tlar / Yo‘sinlar"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q25",
+      "question": "Yurak sikli bosqichlariga mos jarayonlarni aniqlang.",
+      "options": [
+        "Variant A",
+        "Variant B",
+        "Variant C",
+        "Variant D"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q26",
+      "question": "Quyida nechta to‘g‘ri fikr mavjud?",
+      "options": [
+        "2 ta",
+        "3 ta",
+        "4 ta",
+        "5 ta"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q27",
+      "question": "Daltonik otaning sog‘lom qizi uchun metafazada genlar sonini aniqlang.",
+      "options": [
+        "I-2 II-2",
+        "I-4 II-0",
+        "I-0 II-4",
+        "I-2 II-0"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q28",
+      "question": "Organizmlar va ularda uchraydigan polimer moddalarni aniqlang.",
+      "options": [
+        "Variant A",
+        "Variant B",
+        "Variant C",
+        "Variant D"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q29",
+      "question": "Ochiq va yopiq urug‘li o‘simliklar sonini aniqlang.",
+      "options": [
+        "a-7 b-6",
+        "a-8 b-5",
+        "a-5 b-8",
+        "a-6 b-7"
+      ],
+      "answerIndex": null
+    },
+    {
+      "id": "q30",
+      "question": "Skeleti tog‘aydan iborat va suzgich pufagiga ega organizmlarni aniqlang.",
+      "options": [
+        "Tikanli akula, dengiz tulkisi",
+        "Bukri baliq, forel",
+        "Beluga, bakrabaliq",
+        "Moy baliq, ilonbosh"
+      ],
+      "answerIndex": null
+    }
+  ],
+  "branchId": "dangara"
+}
 ]
